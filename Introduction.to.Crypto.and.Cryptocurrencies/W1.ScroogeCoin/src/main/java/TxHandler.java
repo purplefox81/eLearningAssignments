@@ -17,7 +17,7 @@ public class TxHandler {
     public TxHandler(UTXOPool utxoPool) {
         // IMPLEMENT THIS
         poolOriginal = new UTXOPool(utxoPool);
-        poolForValidityCheck = new UTXOPool(utxoPool);
+        //poolForValidityCheck = new UTXOPool(utxoPool);
     }
 
     public void printTx(Transaction tx) {
@@ -63,13 +63,13 @@ public class TxHandler {
             //we assume the input is unspent, so we try to construct a UTXO obj out of it
             UTXO u = new UTXO(input.prevTxHash, input.outputIndex);
             //we try to look it up in the pool. by right it should be there, because the input should be unspent
-            if (!poolForValidityCheck.contains(u)) {
+            if (!poolOriginal.contains(u)) {
                 //System.out.println("pool has no utxo, invalid!");
                 return false;
             }
             else {
                 //if the UTXO is in the pool, we will then get the corresponding TxOutput
-                output = poolForValidityCheck.getTxOutput(u);
+                output = poolOriginal.getTxOutput(u);
                 //as long as it is not null, we pass the test of criteria (1)
                 if (output==null) {
                     //System.out.println("pool has no tx output, invalid!");
@@ -138,7 +138,7 @@ public class TxHandler {
             if (!validFlag) continue;
 
             //process the tx
-            //step 1: remove now-spent utxo from the pool
+            //step 1: remove previsouly-unspent now-spent utxo from the pool
             ArrayList<Transaction.Input> inputs = tx.getInputs();
             for (int i=0; i<inputs.size(); i++) {
                 Transaction.Input input = inputs.get(i);
