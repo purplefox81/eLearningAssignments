@@ -1,13 +1,12 @@
-import javax.swing.tree.TreeNode;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 //YCM: =========================================================
-//YCM: This is the main class that I added my own implementation
+//YCM: This is the main (and only) class that need to be implemented
 //YCM: =========================================================
 public class TxHandler {
 
-    private UTXOPool poolForValidityCheck, poolOriginal;
+    private UTXOPool pool;
 
     /**
      * Creates a public ledger whose current UTXOPool (collection of unspent transaction outputs) is
@@ -16,8 +15,7 @@ public class TxHandler {
      */
     public TxHandler(UTXOPool utxoPool) {
         // IMPLEMENT THIS
-        poolOriginal = new UTXOPool(utxoPool);
-        //poolForValidityCheck = new UTXOPool(utxoPool);
+        pool = new UTXOPool(utxoPool);
     }
 
     public void printTx(Transaction tx) {
@@ -63,13 +61,13 @@ public class TxHandler {
             //we assume the input is unspent, so we try to construct a UTXO obj out of it
             UTXO u = new UTXO(input.prevTxHash, input.outputIndex);
             //we try to look it up in the pool. by right it should be there, because the input should be unspent
-            if (!poolOriginal.contains(u)) {
+            if (!pool.contains(u)) {
                 //System.out.println("pool has no utxo, invalid!");
                 return false;
             }
             else {
                 //if the UTXO is in the pool, we will then get the corresponding TxOutput
-                output = poolOriginal.getTxOutput(u);
+                output = pool.getTxOutput(u);
                 //as long as it is not null, we pass the test of criteria (1)
                 if (output==null) {
                     //System.out.println("pool has no tx output, invalid!");
@@ -143,14 +141,14 @@ public class TxHandler {
             for (int i=0; i<inputs.size(); i++) {
                 Transaction.Input input = inputs.get(i);
                 UTXO u = new UTXO(input.prevTxHash, input.outputIndex);
-                poolOriginal.removeUTXO(u);
+                pool.removeUTXO(u);
             }
             //step 2: add new output from the current tx to the new utxopool
             ArrayList<Transaction.Output> outputs = tx.getOutputs();
             for (int i=0; i<outputs.size(); i++) {
                 //construct a new UTXO, using the hash of the tx, and index of the output in outputs
                 UTXO utxo = new UTXO(tx.getHash(), i);
-                poolOriginal.addUTXO(utxo, outputs.get(i));
+                pool.addUTXO(utxo, outputs.get(i));
             }
 
             //add it to the array
