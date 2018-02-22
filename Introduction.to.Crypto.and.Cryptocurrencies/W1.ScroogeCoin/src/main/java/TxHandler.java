@@ -95,14 +95,6 @@ public class TxHandler {
                         return false;
                     }
                 }
-//                for (int j=i+1;j<outputs.size();j++) {
-//                    Transaction.Output tempOutput = outputs.get(j);
-//                    if (output.address.equals(tempOutput.address)) {
-//                        //in the same tx, there are output entries share the same address
-//                        System.out.println("duplicate output addr, invalid!");
-//                        return false;
-//                    }
-//                }
 
                 //(5)
                 totalInputValue += output.value;
