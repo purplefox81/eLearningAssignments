@@ -1,0 +1,31 @@
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    maven { url "https://artifactory.global.standardchartered.com/artifactory/maven-release" }
+}
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'java-gradle-plugin'
+
+group = artifactGroup
+version = artifactVersion
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+sourceSets {
+    main {
+        java { srcDir 'src/main/java' }
+        resources.srcDir 'src/main/resources'
+    }
+    test {
+        java { srcDir 'src/test/java' }
+        resources.srcDir 'src/test/resources'
+    }
+}
+
+dependencies {
+    testCompile 'junit:junit:4.12'
+}
