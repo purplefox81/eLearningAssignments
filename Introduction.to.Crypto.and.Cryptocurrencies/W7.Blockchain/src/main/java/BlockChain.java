@@ -210,7 +210,8 @@ public class BlockChain {
     }
     private String getHashString(byte[] bs) {
         if (bs==null || bs.length==0) return "";
-        return bs.toString().substring(3,10);
+        //return bs.toString().substring(3,10);
+        return bs.toString();
     }
     private String getIndentationString(int x) {
         String s = "";
