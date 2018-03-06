@@ -198,7 +198,7 @@ public class BlockChain {
     private void printTreeBlock(TreeBlock targetBlock) {
 
         //print myself first
-        System.out.println(getIndentationString(targetBlock.height)+ getBlockString(targetBlock));
+        //System.out.println(getIndentationString(targetBlock.height)+ getBlockString(targetBlock));
         //print decendants
         List<TreeBlock> cs = targetBlock.getChildren();
         for (TreeBlock t : cs) {
